@@ -1,0 +1,33 @@
+modules:
+    workshop-overview:
+        name: Overview
+    workshop-introduction:
+        name: Introduction
+    workshop-content:
+        name: Labs
+    setup-environment:
+        name: Setup Environment
+        exit_sign: Start Workshop
+    labs/00-sample-content:
+        name: Sample Content
+    labs/01-welcome:
+        name: Lab 1
+    labs/02-byodocker:
+        name: Lab 2
+    labs/03-s2i:
+        name: Lab 3
+    labs/04-devmanage-app:
+        name: Lab 4
+    labs/05-webhooks-rollbacks:
+        name: Lab 5
+    labs/06-replication-recovery:
+        name: Lab 6
+    labs/07-labels:
+        name: Lab 7
+    labs/08-cicd-pipeline:
+        name: Lab 8
+    labs/09-bluegreen-deployment:
+        name: Lab 9
+    workshop-summary:
+        name: Workshop Summary
+        exit_sign: Finish Workshop

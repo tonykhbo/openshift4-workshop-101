@@ -1,0 +1,60 @@
+kind: "BuildConfig"
+apiVersion: "build.openshift.io/v1"
+metadata:
+  name: "pipeline"
+spec:
+  strategy:
+    jenkinsPipelineStrategy:
+      jenkinsfile: |-
+        pipeline {
+          agent any
+          stages {
+            stage('buildFrontEnd') {
+              steps {
+                script {
+                  openshift.withCluster() {
+                    openshift.withProject() {
+                      openshift.selector("bc", "frontend").startBuild("--wait=true", "--follow")
+                    }
+                  }
+                }
+              }
+            }
+            stage('deployFrontEnd') {
+              steps {
+                script {
+                  openshift.withCluster() {
+                    openshift.withProject() {
+                      openshift.selector("dc", "frontend").rollout().latest()
+                    }
+                  }
+                }
+              }
+            }
+            stage('promoteToProd') {
+              steps {
+                script {
+                  timeout(time: 15, unit: 'MINUTES') {
+                    input message: "Promote to PROD?", ok: "Promote"
+                  }
+                  openshift.withCluster() {
+                    openshift.withProject() {
+                      openshift.tag("origin-nodejs-sample:latest", "origin-nodejs-sample:prod")
+                    }
+                  }
+                }
+              }
+            }
+            stage('scaleUp') {
+              steps {
+                script {
+                  openshift.withCluster() {
+                    openshift.withProject() {
+                      openshift.selector("dc", "frontend-prod").scale("--replicas=1")
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }

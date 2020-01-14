@@ -1,0 +1,19 @@
+name: Openshift 4 - Demojam 101
+
+modules:
+    activate:
+    - workshop-overview
+    - workshop-introduction
+    - workshop-content
+    - setup-environment
+    - labs/00-sample-content
+    - labs/01-welcome
+    - labs/02-byodocker
+    - labs/03-s2i
+    - labs/04-devmanage-app
+    - labs/05-webhooks-rollbacks
+    - labs/06-replication-recovery
+    - labs/07-labels
+    - labs/08-cicd-pipeline
+    - labs/09-bluegreen-deployment
+    - workshop-summary
