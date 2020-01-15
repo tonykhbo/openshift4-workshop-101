@@ -45,14 +45,14 @@ Your output from the command above should be *similar* to the following:
 
 ##### Web Console Instructions (Option 2)
 
-On the left navbar of the Web Console click on ```Catalog``` > [Developer Catalog](%console_url%/catalog/ns/%project_namespace%)
+On the left navbar of the Web Console click on ```Catalog``` > [Developer Catalog](%console_url%/catalog/ns/demo-%username%)
 
 ![devview](images/lab2_workshop_developer_view.png)
 
 Make sure you're in the correct project: 
 
 ```
-%project_namespace%
+demo-%username%
 ```
 
 In the ```Developer Catalog``` on the right hand side, look for the ```Add``` button and click on it: 
@@ -69,7 +69,7 @@ Then click the magnifying glass to the far right to search for the image. Leave 
 
 ![nexusdeploy](images/lab2_workshop_deploy_nexus.png)
 
-It should automatically redirect you to ```Home``` > ["Status"](%console_url%/overview/ns/%project_namespace%). Your view should list a nexus resource:
+It should automatically redirect you to ```Home``` > ["Status"](%console_url%/overview/ns/demo-%username%). Your view should list a nexus resource:
 
 ![topologytab](images/lab2_workshop_project_status_nexus.png)
 
@@ -107,7 +107,7 @@ oc describe is/nexus
 
 Similarly, you can also see the same details in the Web Console
 
-On the left navbar click on ```Builds``` > [Image Streams](%console_url%/k8s/ns/%project_namespace%/imagestreams). Click on ```nexus``` to see more details about your image stream:
+On the left navbar click on ```Builds``` > [Image Streams](%console_url%/k8s/ns/demo-%username%/imagestreams). Click on ```nexus``` to see more details about your image stream:
 
 ![isinfo](images/lab2_workshop_nexus_is_info.png)
 
@@ -138,7 +138,7 @@ http://nexus-%project_namespace%.%cluster_subdomain%
 
 ##### Web Console Instructions (Option 2)
 
-On the left nav bar, navigate to ```Networking``` > [Routes](%console_url%/k8s/ns/%project_namespace%/routes). Then, click ```Create Route```:
+On the left nav bar, navigate to ```Networking``` > [Routes](%console_url%/k8s/ns/demo-%username%/routes). Then, click ```Create Route```:
 
 ![routes](images/lab2_workshop_create_route.png)
 
