@@ -5,11 +5,6 @@ modules:
         name: Introduction
     workshop-content:
         name: Labs
-    setup-environment:
-        name: Setup Environment
-        exit_sign: Start Workshop
-    labs/00-sample-content:
-        name: Sample Content
     labs/01-welcome:
         name: Lab 1
     labs/02-byodocker:

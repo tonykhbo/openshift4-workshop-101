@@ -5,8 +5,6 @@ modules:
     - workshop-overview
     - workshop-introduction
     - workshop-content
-    - setup-environment
-    - labs/00-sample-content
     - labs/01-welcome
     - labs/02-byodocker
     - labs/03-s2i
