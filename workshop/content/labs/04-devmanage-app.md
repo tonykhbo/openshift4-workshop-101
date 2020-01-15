@@ -15,7 +15,6 @@ In the terminal run the following command:
 ```execute
 oc status
 ```
-<br>
 
 Notice under the template section it lists the containers it wants to deploy along with the path to the container image:
 
@@ -23,7 +22,7 @@ Notice under the template section it lists the containers it wants to deploy alo
 oc describe dc/demojam
 ```
 
->There are a few other ways you could get to this information. If you are feeling adventurous, you might want to describe the replication controller (oc describe rc -l app=dc-metro-map), the image stream (oc describe is -l app=dc-metro-map) or the running pod itself (oc describe pod -l app=dc-metro-map).
+>There are a few other ways you could get to this information. If you are feeling adventurous, you might want to: describe the replication controller ```oc describe rc -l app=demojam```, the image stream ```oc describe is -l app=demojam``` or the running pod itself ```oc describe pod -l app=demojam```
 
 Because we built this app using S2I, we get to see the details about the build - including the container image that was used for building the source code. So let's find out where the image came from. Here are the steps to get more information about the build configuration (bc) and the builds themselves.
 
@@ -34,8 +33,6 @@ oc describe bc/demojam
 ```
 
 >Notice the information about the configuration of how this app gets built. In particular look at the github URL, the webhooks you can use to automatically trigger a new build, the docker image where the build runs inside of, and the builds that have been completed. New let's look at one of those builds.
-
-<br>
 
 Run the following command to view the docker image where the build runs inside of:
 

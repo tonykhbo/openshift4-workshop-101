@@ -1,11 +1,19 @@
 ### Bring your own Docker
 
 It's easy to get started with OpenShift whether you're using our app templates or bringing your existing docker assets. In this quick lab we will deploy an application using an exisiting docker image. OpenShift will create an image stream for the image as well as deploy and manage containers based on that image. And we will dig into the details to show how all that works.
-<br>
-<br>
-When going through this lab, follow either Option 1 (CLI Instructions) or Option 2 (Web Console Instructions).
+
+When going through this lab, follow either:
+```
+Option 1 (CLI Instructions)
+```
+or 
+```
+Option 2 (Web Console Instructions)
+```
+
 #### Let's point OpenShift to an existing built docker image
-<br>
+
+Here we're going to deploy an existing image from a docker registry via CLI or the Web Console.
 
 ##### CLI Instructions (Option 1)
 
@@ -33,109 +41,112 @@ Your output from the command above should be *similar* to the following:
      'oc expose svc/nexus' 
     Run 'oc status' to view your app.
 ```
+<br>
+
 ##### Web Console Instructions (Option 2)
 
-On the left side of the Web Consolde, click on the Administrator drop down, and click on Developer
+On the left navbar of the Web Console click on ```Catalog``` > [Developer Catalog](%console_url%/catalog/ns/%project_namespace%)
 
 ![devview](images/lab2_workshop_developer_view.png)
 
-In the Developer View, click on the "+Add" tab to show the different options to deploy a workload: 
+Make sure you're in the correct project: 
+
+```
+%project_namespace%
+```
+
+In the ```Developer Catalog``` on the right hand side, look for the ```Add``` button and click on it: 
 
 ![devadd](images/lab2_workshop_dev_add_workload.png)
 
-Click the "Container Image" option and next to Image Name enter "sonatype/nexus:oss", then click the magnifying glass to the far right to search for the image.
+Click the ```Deploy Image``` option and under ```Image Name``` enter:
+
+``` 
+sonatype/nexus:oss
+```
+
+Then click the magnifying glass to the far right to search for the image. Leave all the settings as default and click ```Deploy```:
 
 ![nexusdeploy](images/lab2_workshop_deploy_nexus.png)
 
-Scroll down, uncheck "Create a route to the application" under Advance Options, and click "Create". The topology tab should automatically come up, if not click on Topology on the left hand tab. 
-You should see an object labeled nexus in your topology.
+It should automatically redirect you to ```Home``` > ["Status"](%console_url%/overview/ns/%project_namespace%). Your view should list a nexus resource:
 
-![topologytab](images/lab2_workshop_nexus_topology.png)
+![topologytab](images/lab2_workshop_project_status_nexus.png)
 
 #### Browsing our Project Details
-<br>
+
+We're going to take a look at our Project's details using either the CLI or Web console next.
 
 ##### CLI Instructions (Option 1)
 
 Switch back over to the terminal tab in your lab
 
-<br>
-
 Try typing the following to see what is available to 'get':
+
 ```execute
 oc get all
 ```
 
-<br>
-
 Now let's look at what our image stream has in it:
+
 ```execute
 oc get is
 ```
 
-<br>
-
 Getting more information from the nexus image stream: 
+
 ```execute
 oc describe is/nexus
 ```
 
-<br>
-
-> ! An image stream can be used to automatically perform an action, such as updating a deployment, when a new image, in our case a new version of the nexus image, is created. 
+>An image stream can be used to automatically perform an action, such as updating a deployment, when a new image, in our case a new version of the nexus image, is created. 
 
 <br>
 
 ##### Web Console Instructions (Option 2)
+
 Similarly, you can also see the same details in the Web Console
 
-Navigate back to the Administrator view in the Web Console. Scroll down, click on "Builds" on the left hand tab, then click on "Image Streams" 
-
-![imagestream](images/lab2_workshop_nexus_topology.png)
-
-Click on nexus and you should see something similar to this: 
+On the left navbar click on ```Builds``` > [Image Streams](%console_url%/k8s/ns/%project_namespace%/imagestreams). Click on ```nexus``` to see more details about your image stream:
 
 ![isinfo](images/lab2_workshop_nexus_is_info.png)
 
 #### Accessing your Nexus App
-<br>
+
+Next, we want to be able to access the nexus application we just deployed from the docker registry. This means being able to create a URL that we can access via the web browser. 
 
 ##### CLI Instructions (Option 1)
 
-When you created your Nexus Application, one of the default options was to automatically created route for the application, but we unchecked that. 
-
-So what we can do is run this command in the CLI to create a route to our Nexus Application by exposing the service already running:
+Execute this command in the CLI to create a route to our Nexus Application by exposing the service already running:
 
 ```execute
 oc expose service nexus
 ```
 
 The resource will be created for the route, then you can run this command to get the url to access your nexus application:
+
 ```execute
 oc get route nexus
 ```
 
-The output should be something similar to this:
+Your route should be something like this: 
 ```
-NAME    HOST/PORT                                                       PATH   SERVICES   PORT       TERMINATION   WILDCARD
-nexus   nexus-demo-tonybo.apps.us-east-1.starter.openshift-online.com          nexus      8081-tcp                 None
+http://nexus-%project_namespace%.%cluster_subdomain%
 ```
-
-Your route should be nexus-%project_namespace%.%console_url%
 
 <br>
 
 ##### Web Console Instructions (Option 2)
 
-In the Administrator view, navigate to the Networking Tab on the left hand side, expand it and click on "Routes":
+On the left nav bar, navigate to ```Networking``` > [Routes](%console_url%/k8s/ns/%project_namespace%/routes). Then, click ```Create Route```:
 
 ![routes](images/lab2_workshop_create_route.png)
 
-Name your route "nexus". In the Service dropdown, select Nexus. In the Target Port dropdown select 8081->8081 (TCP): 
+Name your route ```nexus```. In the Service dropdown, select nexus. In the Target Port dropdown select ```8081->8081 (TCP)```: 
 
 ![nexusroute](images/lab2_workshop_nexus_route_info.png)
 
-Leave everything else as the default, scroll down, and click "Create". Your route information should show up as a url under location on the right side: 
+Leave everything else as the default, scroll down, and click ```Create```. Your route information should show up as a url under location on the right side: 
 
 ![routecreated](images/lab2_workshop_nexus_route_created.png)
 
@@ -143,9 +154,11 @@ Leave everything else as the default, scroll down, and click "Create". Your rout
 
 #### Test out the Nexus WebApp Route
 
-Click on the url and open into a new tab or navigate to the route you exposed in the terminal from before
+Click on the url and open into a new tab or navigate to the route you exposed in the terminal from before:
 
-> nexus-%project_namespace%.%cluster_subdomain%
+```
+http://nexus-lab-%project_namespace%.%cluster_subdomain%
+```
 
 You should encounter this error:
 
@@ -153,9 +166,11 @@ You should encounter this error:
 
 Good work - this error is expected; since the nexus source directory is actually is on /nexus
 
-So navigate to the same url but add /nexus at the end, like this:
+Add /nexus at the end of the url, like this:
 
-> nexus-%project_namespace%.%cluster_subdomain%/nexus
+```
+http://nexus-lab-%project_namespace%.%cluster_subdomain%/nexus
+```
 
 Of course, we have not provided persistent storage; so, any and all work will be lost.
 
@@ -166,6 +181,7 @@ Of course, we have not provided persistent storage; so, any and all work will be
 #### Let's clean this up
 
 Navigate to the terminal tab in your workshop and run the following command:
+
 ```execute
 oc delete all --all
 ```

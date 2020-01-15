@@ -4,25 +4,25 @@ modules:
     workshop-introduction:
         name: Introduction
     workshop-content:
-        name: Labs
+        name: Content
     labs/01-welcome:
-        name: Lab 1
+        name: Lab 1 - Welcome
     labs/02-byodocker:
-        name: Lab 2
+        name: Lab 2 - BYO Docker
     labs/03-s2i:
-        name: Lab 3
+        name: Lab 3 - S2i
     labs/04-devmanage-app:
-        name: Lab 4
+        name: Lab 4 - Dev/Manage App
     labs/05-webhooks-rollbacks:
-        name: Lab 5
+        name: Lab 5 - Webhooks/Rollbacks
     labs/06-replication-recovery:
-        name: Lab 6
+        name: Lab 6 - Replication/Recovery
     labs/07-labels:
-        name: Lab 7
+        name: Lab 7 - Labels
     labs/08-cicd-pipeline:
-        name: Lab 8
+        name: Lab 8 - CI/CD Pipeline
     labs/09-bluegreen-deployment:
-        name: Lab 9
+        name: Lab 9 - Blue/Green Deployment
     workshop-summary:
         name: Workshop Summary
         exit_sign: Finish Workshop
