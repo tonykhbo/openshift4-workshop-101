@@ -3,42 +3,29 @@
 Once you have an app deployed in OpenShift you can take advantage of some continuous capabilities that help to enable DevOps and automate your management process. We will cover some of those in this lab: Build triggers, webhooks, and rollbacks.
 
 #### Using Github
-We are going to do some integration and coding with an external git repository. For this lab we are going to use github, if you don't already have an account, you can create one here, https://github.com/join
+We are going to do some integration and coding with an external git repository. For this lab we are going to use github, if you don't already have an account, you can create one [here](https://github.com/join)
 
-OK, let's fork the dc-metro-map app from my account into your github account. Goto https://github.com/tonykhbo/demojam and look to the top right for the "Fork" button.
+OK, let's fork the demojam app into your github account. Go to this [link](https://github.com/tonykhbo/demojam) or type https://github.com/tonykhbo/demojam into a new tab. Look to the top right for the ```Fork``` button.
 
 ![githubfork](images/lab5_workshop_github_fork.png)
 
-Click the "Fork" button and Github should redirect you to the newly created fork of the source code.
+Click the ```Fork``` button and Github should redirect you to the newly created fork of the source code.
 
 #### Build Trigger / Code Change Webhook
 
 When using S2I there are a few different things that can be used to trigger a rebuild of your source code. The first is a configuration change, the second is an image change, and the last (which we are covering here) is a webhook. A webhook is basically your git source code repository telling OpenShift that the code we care about has changed. Let's set that up for our project now to see it in action.
 
-Jump back to your OpenShift web console and let's add the webapp to our project. You should know how to do this from previous lab work, but this time point to your github URL for the source code. If you need a refresher expand the box below.
+Let's create a new demojam app but with your git repository that you just forked.
 
-##### Web Console Instructions
+In the terminal, run the following command but with your github username in place of ```[YOUR_ACCOUNT]```:
 
-In the Developer View, click on +Add, then select "From Git" in the available options.
-
-Enter the Git Url from the forked repository in YOUR account 
-
-It should look something like this (without the brackets:
-
-https://github.com/[YOUR_ACCOUNT]/demojam.git
-
-Select NodeJS, Version 10
-
-![personalgit](images/lab5_workshop_new_git.png)
-
-Scroll down and set the Application Name and Name to demojam. Click "Create": 
-
-![gitappname](images/lab5_workshop_appname.png)
+```
+oc new-app --name=demojam https://github.com/[YOUR_ACCOUNT]/demojam.git
+```
 
 #### Grabbing the Webhooks
-The node.js builder template creates a number of resources for you, but what we care about right now is the build configuration because that contains the webhooks. 
 
-<br>
+When using the ```oc new-app``` and ```oc new-build```, GitHub and Generic webhook triggers will be created automatically, but any other needed webhook triggers must be added manually. You can execute ```oc set trigger --help``` in the CLI for more information.
 
 ##### *CLI Instructions (Option 1)*
 
@@ -48,31 +35,43 @@ Inside the terminal, run the following command:
 oc describe bc/demojam | grep -i webhook
 ```
 
-##### *Web Console Instructions (Option 2)*
+Example output: 
 
-Jump back to the Admin View, Expands the Builds tab on the left hand side, then click on "Build Config":
+```
+Webhook Generic:
+        URL:            https://172.30.0.1:443/apis/build.openshift.io/v1/namespaces/demo-user1/buildconfigs/demojam/webhooks/<secret>/generic
+```
+
+Copy this webhook, but we still need the ```<secret>``` of the webhook before we can use it.
+
+In the web console, from the left navbar, navigate to ```Builds``` > [Builds Config](%console_url%/k8s/ns/demo-%username%/buildconfigs). Click on the ```YAML``` tab between ```Overview``` and ```Builds```:
 
 ![djbuildc](images/lab5_workshop_demojam-bc.png)
 
-Scroll down to find the Web Hooks section. Click "Copy URL with Secret" for the GENERIC WebHook
+Copy the generic webhook secret: 
 
-![genericwh](images/lab5_workshop_generic_webhook.png)
+![djgenericwebhook](images/lab5_workshop_generic_webhook.png)
+
+Combine your generic webhook url and secret, you should have something like this:
+
+```
+https://172.30.0.1:443/apis/build.openshift.io/v1/namespaces/demo-user1/buildconfigs/demojam/webhooks/4YqIT6QX2yww3uNjmbxW/generic
+```
 
 #### Jump back over to Github
 
 After copying down the Webhook URL from the CLI Instructions or Web Console instructions, navigate back to your forked repository on github. 
 
-![githubsettings](images/lab5_workshop_github_settings.png)
-
-Click on the "Settings" Tab, then click on "Webhooks" on the left hand pane. 
+Click on the ```Settings``` > ```Webhooks``` on the left navbar.
+Click the ```Add Webhook``` button on the right side:
 
 ![ghwebhook](images/lab5_workshop_githubwebhooks.png)
 
-Click the "Add Webhook" button and paste in the generic webhook url you copied. Click "Disable SSL Verification" and leave the rest of the settings as default. Click "Add Webhook" button: 
+Paste in the generic webhook url you copied into ```Payload URL```. Next, click ```Disable SSL Verification``` and leave the rest of the settings as default. Finally, click the green ```Add Webhook``` button at the bottom: 
 
 ![ghwhadd](images/lab5_workshop_githubwh_add.png)
 
-Good work! Now any "push" to the forked repository will send a webhook that triggers OpenShift to: re-build the code and image using s2i, and then perform a new pod deployment. In fact Github should have sent a test trigger and OpenShift should have kicked off a new build already.
+Good work! Now any ```push``` to the forked repository will send a webhook that triggers OpenShift to: re-build the code and image using s2i, and then perform a new pod deployment. In fact Github should have sent a test trigger and OpenShift should have kicked off a new build already.
 
 ##### Deployment Triggers
 
@@ -82,14 +81,11 @@ In addition to setting up triggers for rebuilding code, we can setup a different
 
 Well, what if something isn't quite right with the latest version of our app? Let's say some feature we thought was ready for the world really isn't - and we didn't figure that out until after we deployed it. No problem, we can roll it back with the click of a button. 
 
-##### *CLI Instructions (Option 1)*
-
 In the terminal, run the following command:
 
 ```execute
 oc rollback demojam-1
 ```
-
 
 Check the status of your pods:
 

@@ -16,20 +16,22 @@ In the terminal, run the following command:
 oc get pods
 ```
 
+Replace ```[POD NAME]``` in the terminal command below with a corresponding pod name from the above output.
+
 ```
-oc describe pod/<POD NAME> | more
+oc describe pod/[POD NAME] | more
 ```
 
 You can see the Labels automatically added contain the app, deployment, and deploymentconfig. Let's add a new label to this pod.
 
 ```
-oc label pod/<POD NAME> testdate=1.1.2020 testedby=mylastname
+oc label pod/[POD NAME] testdate=1.1.2020 testedby=mylastname
 ```
 
 Look at the labels
 
 ```
-oc describe pod/<POD NAME> | more
+oc describe pod/[POD NAME] | more
 ```
 
 Here's a handy way to search through all objects and look at all the labels:
@@ -41,29 +43,22 @@ oc describe all | grep -i "labels:"
 
 ##### *Web Console Instructions (Option 2)*
 
-Inside the Admin View of the web console, click "Workloads" on the left side pane. Then, click on Pods in the dropdown: 
+On the left navbar, click on ```Workload``` > [Pods](%console_url%/k8s/ns/demo-%username%/deploymentconfigs). 
 
-![workload_pod](images/lab4_workshop_workloads_pods.png)
-
-This is going to show basic details for all pods in this project
-
-![djpod_info](images/lab4_workshop_pod_info.png)
-
-In the overview, scroll down and you should see all the labels on this pod:
+This is going to show basic details for all pods in this project such as ```Pod Label```:
 
 ![djpod_label](images/lab7_workshop_pod_label.png)
 
-Click on "YAML" next to "Overview" at the top:
+Click on the pod and then select the ```YAML``` tab between the ```Overview``` and ```Environment``` tabs. 
+You should be able to see all the details of the pod in a YAML format:
 
 ![djpod_yaml](images/lab7_workshop_dj_pod_yaml.png)
 
-You should be able to see all the details of the pod in a YAML format:
+You will see all the labels under the metadata->labels section:
 
 ![djyaml_details](images/lab7_workshop_dj_pod_yaml_details.png)
 
-You will see all the labels under the metadata->labels section.
-
-Add a new label into the labels section 
+Add these new fields into the labels section:
 
 ```
 testdate: 1.1.2020 
@@ -72,22 +67,19 @@ testedby: mylastname
 
 ![djnew_yaml](images/lab7_workshop_dj_yaml_new.png)
 
-Your updated label will show up in the running pod's:
+Your new fields will show up in the running pod's labels section:
 
 ![dj_new_label_pod](images/lab7_workshop_dj_pod_new_label.png)
 
 <br>
 
-
-
 #### Delete your demo-%username% Project
 
-In the Admin View, click on "Home" and then click on "Projects" in the drop down. On the far right hand side, there should be a vertical set of ellipses (...).
+On the left navbar, click on ```Home``` > [Projects](%console_url%/k8s/cluster/projects). On the far right hand side of your demo-%username% project, there should be a vertical set of ellipses (...).
 
 Click on the ellipses and delete the project: 
 
 ![demo-prj-delete](images/lab7_workshop_delete_project.png)
-
 
 #### Summary
 

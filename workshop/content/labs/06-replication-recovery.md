@@ -6,7 +6,7 @@ Things will go wrong with your software, or your hardware, or from something out
 
 ##### Replication
 
-Let's walk through a simple example of how the replication controller can keep your deployment at a desired state. Assuming you still have the dc-metro-map project running we can manually scale up our replicas to handle increased user load.
+Let's walk through a simple example of how the replication controller can keep your deployment at a desired state. 
 
 ##### *CLI Instructions (Option 1)*
 
@@ -22,25 +22,19 @@ Check out the new pods:
 oc get pods
 ```
 
-Notice that you now have 4 unique pods availble to inspect. If you want go ahead and inspect them, using 'oc describe pod/', you can see that each have their own IP address and logs.
+Notice that you now have 4 unique pods availble to inspect. If you want go ahead and inspect them, using ```oc describe pod [POD NAME]```, you can see that each have their own IP address and logs.
 
 ##### *Web Console Instructions (Option 2)*
 
-In the Admin View, click on "Project View", and then select your project.
+From the left navbar, navigate to ```Home``` > [Status](%console_url%/overview/ns/demo-%username%). Click on your ```(DC)  demojam``` resource. On the right panel popup, click on ```Overview```:
 
-Click on the Workload Tab at the top, then click Overview on the right side pane that pops up: 
+>(DC) is short for deployment configuration.
 
 ![dj_overview](images/lab6_workshop_dj_overview.png)
 
-Underneath overview, click the up arrows 3 times. The deployment should indicate that it is scaling to 4 pods, and eventually you will have 4 running pods. Keep in mind that each pod has it's own container which is an identical deployment of the webapp. OpenShift is now (by default) round robin load-balancing traffic to each pod.
+Underneath overview, click ```DESIRED COUNT``` and set it to 4. The deployment should indicate that it is scaling to 4 pods, and eventually you will have 4 running pods. Keep in mind that each pod has it's own container which is an identical deployment of the webapp. OpenShift is now (by default) round robin load-balancing traffic to each pod.
 
 ![dj_scale_4](images/lab6_workshop_dj_scale_4.png)
-
-Hover over the pod counter (the circle). Notice that you now have 4 unique webapp pods available to inspect. 
-
-Click on the "Resources" tab next to "Overview" if you want go ahead and inspect them. You can see that each have their own IP address and logs.
-
-![dj_resources_4](images/lab6_workshop_dj_resources_4.png)
 
 So you've told OpenShift that you'd like to maintain 4 running, load-balanced, instances of our web app.
 
@@ -64,7 +58,7 @@ oc delete pod/PODNAME
 oc get pods -w
 ```
 
-If you're fast enough you'll see the pod you deleted go "Terminating" and you'll also see a new pod immediately get created and transition from "Pending" to "Running". If you weren't fast enough you can see that your old pod is gone and a new pod is in the list with an age of only a few seconds.
+If you're fast enough you'll see the pod you deleted go ```Terminating``` and you'll also see a new pod immediately get created and transition from ```Pending``` to ```Running```. If you weren't fast enough you can see that your old pod is gone and a new pod is in the list with an age of only a few seconds.
 
 You can see the more details about your replication controller with:
 
@@ -76,21 +70,17 @@ oc describe rc
 
 ##### *Web Console Instructions (Option 2)*
 
-In the Admin View, click on "Project View", and then select your project.
-
-Click on the Workload Tab at the top, then click on the "Resources" tab to see all of your running pods.
+On the left navbar, click on ```Workload``` > [Deployment Config](%console_url%/k8s/ns/demo-%username%/deploymentconfigs). Then, select the ```Pods``` tab in between the ```YAML``` and ```Environment``` tabs. You should see your 4 pods: 
 
 ![dj_resources_4](images/lab6_workshop_dj_resources_4.png)
 
-Click one of the running pods. Click the "Actions" button in the top right and then select "Delete":
+On the right side, for any pod, click the vertical ellipses ```...``` button, and select ```Delete Pod```:
 
 ![dj_pod_delete](images/lab6_workshop_dj_pod_delete.png)
 
-Confirm deletion, and quickly switch back to the Overview tab. If you're fast enough you'll see the pod you deleted unfill a portion of the deployment circle, and then a new pod fill it back up.
+Confirm deletion, you'll see that pod enter ```Terminating``` status and another pod appear with ```Container Creating``` status: 
 
 ![dj_pod_restart](images/lab6_workshop_dj_delete_restart.png)
-
-You can browse the pods list again to see the old pod was deleted and a new pod. 
 
 <br>
 
@@ -112,7 +102,7 @@ oc exec PODNAME -it /bin/bash
 
 You are now executing a bash shell running in the container of the pod. Let's kill our webapp and see what happens.
 
-> If we had multiple containers in the pod we could use "-c CONTAINER_NAME" to select the right one
+> If we had multiple containers in the pod we could use the ```-c CONTAINER_NAME``` flag to select the appropriate one.
 
 ```
 pkill -9 node
@@ -141,9 +131,9 @@ If a container dies multiple times quickly, OpenShift is going to put the pod in
 
 ##### *Web Console Instructions (Option 2)*
 
-Navigate to browse the pods list in your Project, and click on a running pod
+On the left navbar, click on ```Workload``` > [Pods](%console_url%/k8s/ns/demo-%username%/deploymentconfigs). Select any running pod and click the ```Terminal``` next to the ```Events``` tab:
 
-In the tab bar for this pod, click on "Terminal"
+![dj_pod_terminal](images/lab6_workshop_dj_pod_terminal.png)
 
 Click inside the terminal view and type 
 
@@ -157,11 +147,13 @@ This is going to kill the node.js web server and kick you off the container.
 
 ![dj_pod_closed](images/lab6_workshop_dj_term_cli_closed.png)
 
-Click the refresh button (on the browser) and do that a couple more times.
+In the top right of the workshop, click the ```Settings Icon``` > ```Reload Console```:
+
+![reload_console](images/lab6_workshop_reload_console.png)
+
+Reload the console multiple times.
 
 Go back to the pods list.
-
-![dj_pod_crash](images/lab6_workshop_dj_crash.png)
 
 The container died multiple times so quickly that OpenShift is going to put the pod in a CrashBackOff state. This ensures the system doesn't waste resources trying to restart containers that are continuously crashing.
 
@@ -169,7 +161,17 @@ The container died multiple times so quickly that OpenShift is going to put the 
 
 #### Clean up
 
-Let's scale back down to 1 replica. If you are using the web console just click the down arrow from the Overview page. If you are using the command line use the "oc scale" command.
+Let's scale back down to 1 replica. 
+
+If you are using the command line use the ```oc scale``` command. 
+
+```execute
+oc scale --replicas=1 dc/demojam
+```
+
+From the dashboard, you can just edit the ```DESIRED COUNT``` in the ```Status``` > ```(DC) demojam``` > ```Overview``` to 1: 
+
+![dj_overview](images/lab6_workshop_dj_overview.png)
 
 <br>
 

@@ -65,7 +65,7 @@ Click the ```Deploy Image``` option and under ```Image Name``` enter:
 sonatype/nexus:oss
 ```
 
-Then click the magnifying glass to the far right to search for the image. Leave all the settings as default and click ```Deploy```:
+Then click the ```magnifying glass``` to the far right to search for the image. Leave all the settings as default and click ```Deploy```:
 
 ![nexusdeploy](images/lab2_workshop_deploy_nexus.png)
 
@@ -138,15 +138,19 @@ http://nexus-%project_namespace%.%cluster_subdomain%
 
 ##### Web Console Instructions (Option 2)
 
-On the left nav bar, navigate to ```Networking``` > [Routes](%console_url%/k8s/ns/demo-%username%/routes). Then, click ```Create Route```:
+On the left nav bar, navigate to ```Networking``` > [Routes](%console_url%/k8s/ns/demo-%username%/routes):
 
 ![routes](images/lab2_workshop_create_route.png)
+
+Then, click ```Create Route```.
 
 Name your route ```nexus```. In the Service dropdown, select nexus. In the Target Port dropdown select ```8081->8081 (TCP)```: 
 
 ![nexusroute](images/lab2_workshop_nexus_route_info.png)
 
-Leave everything else as the default, scroll down, and click ```Create```. Your route information should show up as a url under location on the right side: 
+Leave everything else as the default, scroll down, and click ```Create```. 
+
+Your route information should show up as a url under location on the right side: 
 
 ![routecreated](images/lab2_workshop_nexus_route_created.png)
 

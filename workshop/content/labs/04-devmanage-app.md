@@ -46,27 +46,34 @@ oc describe build/demojam-1
 
 ##### *Web Console Instructions (Option 2)*
 
-In the developer view, click on "Topology" on the left side navigation pane. Then, click on your demojam nodejs app and a rightside pane should pop up with more information about the app. Click on "Overview" as shown below: 
+From the left navbar, navigate to ```Home``` > [Status](%console_url%/overview/ns/demo-%username%). Click on "Overview" to see more details about your demojam application:
 
 ![djoverview](images/lab4_workshop_demojam_overview.png)
 
-Click Builds on the leftside nav pane in order to see your build configs. Find the demojam build config, it should look like this:
+On the left navbar, navigate to ```Builds``` > [Builds Config](%console_url%/k8s/ns/demo-%username%/buildconfigs). Find the demojam build config, it should look like this:
 
 ![djbuildc](images/lab4_workshop_demojam_bc.png)
 
-Scroll back up a bit, then navigate to the build tab: 
+Next, click on the ```Builds``` tab between ```YAML``` and ```Environment``` or navigate to ```Builds``` > [Builds](%console_url%/k8s/ns/demo-%username%/builds) from the left navbar
 
 ![djbuildtab](images/lab4_workshop_bc_build_tab.png)
 
-Click on demojam-1. Because we built this app using S2I, we get to see the details about the build - including the container image that was used for building the source code. Note that you can kick-off a rebuild here if something went wrong with the initial build and you'd like to attempt it again.
+Click on demojam-1. Because we built this app using S2I, we get to see the details about the build - including the container image that was used for building the source code. 
+
+>Note that you can kick-off a rebuild here if something went wrong with the initial build and you'd like to attempt it again.
+
+Here you can also see the author's latest commit and comment:
 
 ![djbuildinfo](images/lab4_workshop_build_image_info.png)
 
-Here you can also see the author's latest commit. You can take the commit GUID and add it to this URL: 
-<br>
+You can take the commit GUID and add it to this URL: 
+
+```
 https://github.com/tonykhbo/demojam/commit/[COMMIT_GUID] 
-<br>
+```
+
 to see the specific change. 
+
 <br>
 
 #### Pod Logs
@@ -81,7 +88,7 @@ In the terminal, run the following to see the basic details of all the pods in t
 oc get pods
 ```
 
-Let's look at the pod running our application. Look for the POD NAME that that is "Running" you will use it below.
+Let's look at the pod running our application. Look for the ```POD NAME``` that that is ```Running``` you will use it below.
 
 ```
 oc logs [POD NAME]
@@ -89,25 +96,47 @@ oc logs [POD NAME]
 
 You will see in the output details of your app starting up and any status messages it has reported since it started.
 
->You can see more details about the pod itself with 'oc describe pod/'
+>You can see more details about the pod itself with ```oc describe pod [POD NAME]```
+
+Example: 
+
+```
+[user1:~] $ oc get pods
+NAME               READY   STATUS      RESTARTS   AGE
+demojam-1-build    0/1     Completed   0          19h
+demojam-1-deploy   0/1     Completed   0          19h
+demojam-1-wrfvb    1/1     Running     1          19h
+```
+
+```
+[user1:~] $ oc describe pod demojam-1-wrfvb
+Name:               demojam-1-wrfvb
+Namespace:          demo-user1
+Priority:           0
+PriorityClassName:  <none>
+Node:               ip-10-0-142-68.ec2.internal/10.0.142.68
+Start Time:         Wed, 15 Jan 2020 06:30:04 +0000
+Labels:             app=demojam
+                    deployment=demojam-1
+                    deploymentconfig=demojam
+...
+```
 
 ##### *Web Console Instructions (Option 2)*
 
-Inside the Admin View of the web console, click "Workloads" on the left side pane. Then, click on Pods in the dropdown: 
+On the left navbar, click ```Workloads``` > [Pods](%console_url%/k8s/ns/%project_namespace%/pods). This is going to show basic details for all pods in this project:
 
 ![workload_pod](images/lab4_workshop_workloads_pods.png)
 
-This is going to show basic details for all pods in this project
+You can see other pods from other projects by clicking on the dropdown and selecting the corresponding project.
 
 ![djpod_info](images/lab4_workshop_pod_info.png)
 
-Next let's look at the log for the pod running our application: 
+Let's click on the pod for our demojam application. Here you see the status details of your pod as well as its configuration. Take a minute here and look at what details are available.
 
 ![djpod_details](images/lab4_workshop_pod_details.png)
 
-Here you see the status details of your pod as well as its configuration. Take a minute here and look at what details are available.
-
-Next click "Logs", see in the output window the details of your app starting up and any status messages it has reported since it started:
+Next, click the ```Logs``` tab between ```Environment``` and ```Events```. See in the output window the details of your app starting up and any status messages it has reported since it started:
 
 ![djpodlogs](images/lab4_workshop_djpod_logs.png)
 
@@ -125,7 +154,7 @@ Let's have a little fun. The app has some easter eggs that get triggered when ce
 oc set env dc/demojam -e MYSTERY=true
 ```
 
-Due to the deployment config strategy being set to "Rolling" and the "ConfigChange" trigger being set, OpenShift auto deployed a new pod as soon as you updated with the env variable. If you were quick enough you saw this happening with the get pods command. The "-w" flag lets you watch the pods.
+Due to the deployment config strategy being set to ```Rolling``` and the ```ConfigChange``` trigger being set, OpenShift auto deployed a new pod as soon as you updated with the env variable. If you were quick enough you saw this happening with the get pods command. The ```-w``` flag lets you watch the pods.
 
 ```
 oc get pods -w
@@ -133,13 +162,18 @@ oc get pods -w
 
 >Press Ctrl+C to stop watching the pods
 
->You can set env variables across all deployment configs with 'dc --all' instead of specifying a specifc config
+You can set env variables across all deployment configs with ```dc --all``` instead of specifying a specific config
+
+Example:
+```
+oc set env dc --all -e MYSTERY=true
+```
 
 <br>
 
 ##### *Web Console Instructions (Option 2)*
 
-In the Admin View of the Web Console, click on "Workload" on the leftside pane, then click on "Deployment Config". This is going to show basic details for all deployment configurations in this project: 
+On the left navbar, click on ```Workload``` > [Deployment Config](%console_url%/k8s/ns/demo-%username%/deploymentconfigs). This is going to show basic details for all deployment configurations in this project: 
 
 ![dj_dc_tab](images/lab4_workshop_dj_deploy_config_tab.png)
 
@@ -149,28 +183,25 @@ Click the "demojam" deployment config:
 
 There are a lot of details here, feel free to check them out and ask questions, but we are here to set some new environment variables.
 
-Click on the Environmen tab next to the Pods tab:
+Click on the ```Environment``` tab next to the ```Pods``` tab:
 
 ![dj_env_tab](images/lab4_workshop_dj_env_tab.png)
 
-Add an environment variable with the name MYSTERY and a value of 'true':
+Add an environment variable with the name ```MYSTERY``` and a value of ```true```. Click ```Save```:
 
 ![dj_env_true](images/lab4_workshop_dj_env_true.png)
 
-Scroll down to the bottom and click "Save". 
-
-If you are quick enough you will see a new pod spin up and an the old pod spin down. This is due to the deployment config strategy being set to "Rolling" and having a "ConfigChange" trigger, OpenShift auto deployed a new pod as soon as you updated with the env variable.
+If you are quick enough you will see a new pod spin up and an the old pod spin down. This is due to the deployment config strategy being set to ```Rolling``` and having a ```ConfigChange``` trigger, OpenShift auto deployed a new pod as soon as you updated with the env variable.
 
 ![dj_env_rollout](images/lab4_workshop_dj_rollout.png)
 
-With the new environment variables set, the app should look like this in your web browser (the play button will become green): 
+With the new environment variables set, Navigate to your [app](http://demojam-demo-%username%.%cluster_subdomain%/#/sprint) should look like this in your web browser (the play button will become green): 
 
 ![dj_web_green](images/lab4_workshop_dj_green.png)
 
 <br>
 
 #### Getting into a pod
-
 
 There are situations when you might want to jump into a running pod, and OpenShift lets you do that pretty easily. We set some environment variables and secrets in this lab, let's jump onto our pod to inspect them.
 
@@ -193,7 +224,7 @@ You are now interactively attached to the container in your pod. Let's look for 
 ```execute
 env | grep MYSTERY
 ```
-That should return the **MYSTERY=true** matching the value that we set in the deployment config.
+That should return the ```MYSTERY=true``` matching the value that we set in the deployment config.
 
 ```execute
 exit
@@ -202,21 +233,23 @@ exit
 
 ##### *Web Console Instructions (Option 2)*
 
-Inside the Admin View of the web console, click "Workloads" on the left side pane. Then, click on Pods in the dropdown: 
+On the left navbar, click on ```Workload``` > [Pods](%console_url%/k8s/ns/demo-%username%/pods). Select our demojam pod: 
 
 ![workload_pod](images/lab4_workshop_workloads_pods.png)
-
-Click on our demojam pod: 
-
-![djpod_details](images/lab4_workshop_pod_details.png)
 
 Click on the "Terminal" tab at the top next to "Events. 
 
 ![djpod_terminal_tab](images/lab4_workshop_dj_terminal_tab.png)
 
-Inside the web page's terminal type: 'env | grep MYSTERY'
+Inside the web page's terminal type: 
 
-That should return the MYSTERY=true matching the value that we set in the deployment config.
+```
+env | grep MYSTERY
+```
+
+That should return the ```MYSTERY=true``` matching the value that we set in the deployment config:
+
+![dj_mystery_true](images/lab4_workshop_dj_mystery_true.png)
 
 <br>
 
