@@ -14,7 +14,7 @@ spec:
                 script {
                   openshift.withCluster() {
                     openshift.withProject() {
-                      openshift.selector("bc", "frontend").startBuild("--wait=true", "--follow")
+                      openshift.selector("bc", "blue").startBuild("--wait=true", "--follow")
                     }
                   }
                 }
@@ -25,7 +25,7 @@ spec:
                 script {
                   openshift.withCluster() {
                     openshift.withProject() {
-                      openshift.selector("dc", "frontend").rollout().latest()
+                      openshift.selector("dc", "blue").rollout().latest()
                     }
                   }
                 }
@@ -50,7 +50,7 @@ spec:
                 script {
                   openshift.withCluster() {
                     openshift.withProject() {
-                      openshift.selector("dc", "frontend-prod").scale("--replicas=1")
+                      openshift.selector("dc", "green-prod").scale("--replicas=1")
                     }
                   }
                 }
