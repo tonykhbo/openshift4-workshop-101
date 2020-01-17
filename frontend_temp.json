@@ -2,9 +2,9 @@
   "kind": "Template",
   "apiVersion": "template.openshift.io/v1",
   "metadata": {
-    "name": "nodejs-helloworld-sample",
+    "name": "nodejs-helloworld",
     "annotations": {
-      "description": "This example shows how to create a simple nodejs application in openshift origin v3",
+      "description": "This example shows how to create a simple nodejs application in openshift",
       "iconClass": "icon-nodejs",
       "tags": "instant-app,nodejs"
     }
@@ -129,7 +129,7 @@
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "frontend"
+        "name": "blue"
       },
       "spec": {
         "ports": [
