@@ -8,7 +8,7 @@ In this lab we walk through creating a simple example of a CI/CD pipeline utlizi
 
 ##### *CLI Instructions (Option 1)*
 
-Create the project cicd-%username%
+Create the project, ```cicd-%username%```
 
 ```execute
 oc new-project cicd-%username%
@@ -16,31 +16,37 @@ oc new-project cicd-%username%
 
 ##### *Web Console Instructions (Option 2)*
 
-In the Admin View, click on "Home" and then click on "Projects" in the drop down. 
+On the left navbar, click on ```Home``` > [Projects](%console_url%/k8s/cluster/projects). 
 
-Click on "Create Project" and name it cicd-%username%: 
+Click on ```Create Project``` and name it ```cicd-%username%```: 
 
 ![create_prj](images/lab8_workshop_create_prj.png)
 
-#### Use the cicd-%username% project 
+<br>
 
-##### *CLI Instructions*
+#### Instantiate a Jenkins server in your project
+
+<!-- ##### *CLI Instructions (Option 1)* -->
+
+Make sure you're in the correct project namespace:
 
 ```execute
 oc project cicd-%username%
 ```
 
-#### Instantiate a Jenkins server in your project
-
-##### *CLI Instructions (Option 1)*
+Run this command to create a ephemeral jenkins application: 
 
 ```execute
 oc new-app jenkins-ephemeral
 ```
 
-##### *Web Console Instructions (Option 2)*
+<!-- ##### *Web Console Instructions (Option 2)*
 
-From the Developer View, select your project, cicd-%username%.
+Inside ```Home``` > [Status](%console_url%/overview/ns/cicd-%username%). Click on ```Browse Catalog```:
+
+![browse_catalog](images/lab9_workshop_browse_catalog.png)
+
+Find ```NodeJS```, select it, and click on ["Create Application"]
 
 Then click on "+Add" and then click on "From Catalog": 
 
@@ -58,6 +64,8 @@ Change Memory Limits to 512Mi and leave the rest of the fields as the default:
 
 Click "Create" at the bottom
 
+<br> -->
+
 <br>
 
 #### Create a sample application config
@@ -67,7 +75,7 @@ Click "Create" at the bottom
 Use the "oc new-app" command to create a simple nodejs application from a template file:
 
 ```execute
-oc new-app -f https://raw.githubusercontent.com/tonykhbo/ocp4-workshop-101/master/frontend_template.json
+oc new-app -f https://raw.githubusercontent.com/tonykhbo/ocp4-workshop-101/master/frontend_temp.json
 ```
 
 <!-- ##### *Web Console Instructions (Option 2)*

@@ -14,7 +14,7 @@
       "kind": "Service",
       "apiVersion": "v1",
       "metadata": {
-        "name": "frontend-prod"
+        "name": "green-prod"
       },
       "spec": {
         "ports": [
@@ -27,7 +27,7 @@
           }
         ],
         "selector": {
-          "name": "frontend-prod"
+          "name": "green-prod"
         },
         "type": "ClusterIP",
         "sessionAffinity": "None"
@@ -40,12 +40,12 @@
       "kind": "Route",
       "apiVersion": "v1",
       "metadata": {
-        "name": "frontend"
+        "name": "color"
       },
       "spec": {
         "to": {
           "kind": "Service",
-          "name": "frontend"
+          "name": "blue"
         },
         "tls": {
           "termination": "edge"
@@ -56,7 +56,7 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "frontend-prod"
+        "name": "green-prod"
       },
       "spec": {
         "strategy": {
@@ -87,12 +87,12 @@
         ],
         "replicas": 1,
         "selector": {
-          "name":"frontend-prod"
+          "name":"green-prod"
         },
         "template": {
           "metadata": {
             "labels": {
-              "name": "frontend-prod"
+              "name": "green-prod"
             }
           },
           "spec": {
@@ -142,7 +142,7 @@
           }
         ],
         "selector": {
-          "name": "frontend"
+          "name": "blue"
         },
         "type": "ClusterIP",
         "sessionAffinity": "None"
@@ -183,7 +183,7 @@
       "kind": "BuildConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "frontend",
+        "name": "blue",
         "labels": {
           "name": "nodejs-sample-build"
         }
@@ -237,7 +237,7 @@
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
       "metadata": {
-        "name": "frontend"
+        "name": "blue"
       },
       "spec": {
         "strategy": {
@@ -268,12 +268,12 @@
         ],
         "replicas": 1,
         "selector": {
-          "name":"frontend"
+          "name":"blue"
           },
         "template": {
           "metadata": {
             "labels": {
-              "name": "frontend"
+              "name": "blue"
             }
           },
           "spec": {

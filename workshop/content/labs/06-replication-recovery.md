@@ -70,7 +70,9 @@ oc describe rc
 
 ##### *Web Console Instructions (Option 2)*
 
-On the left navbar, click on ```Workload``` > [Deployment Config](%console_url%/k8s/ns/demo-%username%/deploymentconfigs). Then, select the ```Pods``` tab in between the ```YAML``` and ```Environment``` tabs. You should see your 4 pods: 
+On the left navbar, click on ```Workload``` > [Deployment Config](%console_url%/k8s/ns/demo-%username%/deploymentconfigs). Click on your pod. 
+
+Then, select the ```Pods``` tab in between the ```YAML``` and ```Environment``` tabs. You should see your 4 pods: 
 
 ![dj_resources_4](images/lab6_workshop_dj_resources_4.png)
 
@@ -114,8 +116,10 @@ This will kick you out off the container with an error like:
 command terminated with exit code 137
 ```
 
-Do it again - shell in and execute the same command to kill node
-Try to shell in again after the command, and you should see this message instead 
+Repeat the process: Shell in and execute the same command to kill node. 
+
+After executing the pkill command, attempt to shell in again, and you should see this message instead:
+
 ```
 error: unable to upgrade connection: container not found
 ```
@@ -125,13 +129,15 @@ Watch for the container restart
 oc get pods -w
 ```
 
-If a container dies multiple times quickly, OpenShift is going to put the pod in a CrashBackOff state. This ensures the system doesn't waste resources trying to restart containers that are continuously crashing.
+If a container dies multiple times quickly, OpenShift is going to put the pod in a ```CrashBackOff``` state. This ensures the system doesn't waste resources trying to restart containers that are continuously crashing.
 
 <br>
 
 ##### *Web Console Instructions (Option 2)*
 
-On the left navbar, click on ```Workload``` > [Pods](%console_url%/k8s/ns/demo-%username%/deploymentconfigs). Select any running pod and click the ```Terminal``` next to the ```Events``` tab:
+On the left navbar, click on ```Workload``` > [Pods](%console_url%/k8s/ns/demo-%username%/pods). Select any running pod. 
+
+Click the ```Terminal``` next to the ```Events``` tab:
 
 ![dj_pod_terminal](images/lab6_workshop_dj_pod_terminal.png)
 
@@ -155,7 +161,7 @@ Reload the console multiple times.
 
 Go back to the pods list.
 
-The container died multiple times so quickly that OpenShift is going to put the pod in a CrashBackOff state. This ensures the system doesn't waste resources trying to restart containers that are continuously crashing.
+The container died multiple times so quickly that OpenShift is going to put the pod in a ```CrashBackOff``` state. This ensures the system doesn't waste resources trying to restart containers that are continuously crashing.
 
 <br>
 
