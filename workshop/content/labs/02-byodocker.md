@@ -131,7 +131,7 @@ oc get route nexus
 
 Your route should be something like this: 
 ```
-http://nexus-lab-demo-%username%.%cluster_subdomain%
+http://nexus-demo-%username%.%cluster_subdomain%
 ```
 
 <br>
@@ -158,11 +158,9 @@ Your route information should show up as a url under location on the right side:
 
 #### Test out the Nexus WebApp Route
 
-Click on the url and open into a new tab or navigate to the route you exposed in the terminal from before:
+Click on the url and open into a new tab or navigate to the route you exposed in the terminal from before
 
-```
-http://nexus-lab-demo-%username%.%cluster_subdomain%
-```
+>If your project name is demo-%username%, you can click this [link](http://nexus-demo-%username%.%cluster_subdomain%) to access your nexus application.
 
 You should encounter this error:
 
@@ -170,10 +168,10 @@ You should encounter this error:
 
 Good work - this error is expected; since the nexus source directory is actually is on /nexus
 
-Add /nexus at the end of the url, like this:
+Add /nexus at the end of your nexus route, like this:
 
 ```
-http://nexus-lab-demo-%username%.%cluster_subdomain%/nexus
+http://nexus-demo-%username%.%cluster_subdomain%/nexus
 ```
 
 Of course, we have not provided persistent storage; so, any and all work will be lost.
