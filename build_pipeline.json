@@ -50,7 +50,7 @@ spec:
                 script {
                   openshift.withCluster() {
                     openshift.withProject() {
-                      openshift.selector("dc", "green-prod").scale("--replicas=1")
+                      openshift.selector("dc", "green-prod").scale("--replicas=2")
                     }
                   }
                 }

@@ -1,16 +1,10 @@
 ### Blue/Green deployments
 
-When implementing continuous delivery for your software one very useful technique is called Blue/Green deployments. It addresses the desire to minimize downtime during the release of a new version of an application to production. Essentially, it involves running two production versions of your app side-by-side and then switching the routing from the last stable version to the new version once it is verified. Using OpenShift, this can be very seamless because using containers we can easily and rapidly deploy a duplicate infrastructure to support alternate versions and modify routes as a service. In this lab, we will walk through a simple Blue/Green workflow with an simple web application on OpenShift.
+When implementing continuous delivery for your software one very useful technique is called Blue/Green deployments. It addresses the desire to minimize downtime during the release of a new version of an application to production. Essentially, it involves running two production versions of your app side-by-side and then switching the routing from the last stable version to the new version once it is verified. Using OpenShift, this can be very seamless because using containers we can easily and rapidly deploy a duplicate infrastructure to support alternate versions and modify routes as a service. 
 
-#### Before starting
+In this lab, we will walk through a simple Blue/Green workflow with the blue and green-prod application from the previous lab.
 
-Before we get started with the Blue/Green deployment lab, lets clean up some of the projects from the previous lab.
-
-```execute
-oc delete project cicd-%username%
-```
-
-#### Lets deploy an application
+<!-- #### Lets deploy an application
 
 To demonstrate Blue/Green deployments, we'll use a simple application that renders a colored box as an example. Using your GitHub account, please fork the following https://github.com/tonykhbo/demojam project.
 
@@ -82,18 +76,20 @@ In the terminal, run this command:
 oc new-app --name=blue https://github.com/tonykhbo/demojam
 ```
 
-Wait for the "blue" application to become avialable before proceeding.
+Wait for the "blue" application to become avialable before proceeding. -->
 
-#### Switch from Green to Blue
+#### Switch from Blue to Green
 
-Now that we are satisfied with our change we can do the Green/Blue switch. With OpenShift services and routes, this is super simple. Follow the steps below to make the switch:
+We deployed a production application with our pipeline in the previous lab, ```green-prod```. But, we only have a route to our ```blue``` application. 
+
+Let's change our ```color``` route from ```blue``` to ```green-prod```.
 
 ##### *CLI Instructions (Option 1)*
 
 In the terminal, run the following command:
 
 ```execute
-oc edit route green
+oc edit route color
 ```
 
 This will bring up the Route configuration yaml:
@@ -101,18 +97,17 @@ This will bring up the Route configuration yaml:
 ```
 ...
 spec:
-  host: green-bluegreen-tonykhbo.apps.us-east-1.starter.openshift-online.com
-  port:
-    targetPort: 8080-tcp
+  host: color-cicd-user1.apps.cluster-demo-cbb1.demo-cbb1.example.opentlc.com
   subdomain: ""
+  tls:
+    termination: edge
   to:
     kind: Service
-    name: green   <--------------------------
-    weight: 100
+    name: blue  <--------------
   wildcardPolicy: None
 ...
 ```
-Edit the element spec: to: namechange it's value from "green" to "blue".
+Edit the element spec: to: namechange it's value from ```blue``` to ```green-prod```.
 
 ```
 to:
@@ -120,36 +115,19 @@ to:
     name: blue
 ```
 
-
-
-<br>
-
 ##### *Web Console Instructions (Option 2)*
 
-In the Admin View of the web console, click on "Networking" on the left hand and then click on "Routes":
+From the left navbar, navigate to ```Networking``` >  [Routes](%console_url%/k8s/ns/cicd-%username%/routes). Then, click on the ```color``` route and select the ```YAML``` tab next to the ```Overview``` tab at the top: 
 
-![route_green](images/lab9_workshop_routes_green.png)
+![routes_color_edit](images/lab9_workshop_routes_edit_yaml.png)
 
-Click on the green route and then click on YAML: 
+In the ```spec``` section, change ```to: name:``` from ```blue``` to ```green-prod```: 
 
-![routes_green_edit](images/lab9_workshop_routes_edit_yaml.png)
+![routes_color_green_prod](images/lab9_workshop_routes_green_prod.png)
 
-In the Spec section, change *to: name:* from green to blue: 
+Save the changes.
 
-```
-spec:
-  host: green-bluegreen-tonykhbo.apps.us-east-1.starter.openshift-online.com
-  subdomain: ''
-  to:
-    kind: Service
-    name: blue
-    weight: 100
-  port:
-    targetPort: 8080-tcp
-  wildcardPolicy: None
-```
-
-Save the changes and navigate to that route and see the change.
+Now whenever you navigate to the route, you will actually be viewing the ```green-prod``` application. 
 
 #### Summary
 
