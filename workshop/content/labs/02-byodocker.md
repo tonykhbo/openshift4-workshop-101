@@ -131,7 +131,7 @@ oc get route nexus
 
 Your route should be something like this: 
 ```
-http://nexus-%project_namespace%.%cluster_subdomain%
+http://nexus-lab-demo-%username%.%cluster_subdomain%
 ```
 
 <br>
@@ -161,7 +161,7 @@ Your route information should show up as a url under location on the right side:
 Click on the url and open into a new tab or navigate to the route you exposed in the terminal from before:
 
 ```
-http://nexus-lab-%project_namespace%.%cluster_subdomain%
+http://nexus-lab-demo-%username%.%cluster_subdomain%
 ```
 
 You should encounter this error:
@@ -173,7 +173,7 @@ Good work - this error is expected; since the nexus source directory is actually
 Add /nexus at the end of the url, like this:
 
 ```
-http://nexus-lab-%project_namespace%.%cluster_subdomain%/nexus
+http://nexus-lab-demo-%username%.%cluster_subdomain%/nexus
 ```
 
 Of course, we have not provided persistent storage; so, any and all work will be lost.
