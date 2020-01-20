@@ -132,9 +132,9 @@
                     <div class="card-body">
                       <ul class="list-group list-group-flush">
                         <li class="list-group-item">Clone the workshop directory:
-                          <pre>$ git clone https://github.com/tonykhbo/openshift4-workshop-101.git</pre>
+                          <pre>$ git clone --recurse-submodules https://github.com/tonykhbo/openshift4-workshop-101.git</pre>
                         </li>
-                        <li class="list-group-item">Change Directory into the folder: 
+                        <!-- <li class="list-group-item">Change Directory into the folder: 
                           <pre>$ cd openshift4-workshop-101/</pre>
                         </li>
                         <li class="list-group-item">This removes the .workshop/scripts directory that may exist when unpacking the workshop:
@@ -145,7 +145,7 @@
                         </li>
                         <li class="list-group-item">Then checkout a copy of the Git submodule:
                           <pre>$ git submodule update --remote</pre>
-                        </li>
+                        </li> -->
                         <li class="list-group-item">Make sure you are in the Openshift project you created earlier:
                           <pre>$ oc project [projectname]</pre>
                         </li>
