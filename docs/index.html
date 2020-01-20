@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Now UI Kit Pro by Creative Tim
+    Workshop 101
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -37,8 +37,8 @@
       </div>
       <div class="content-center">
         <div class="container">
-          <h1 class="title">Openshift 4 Workshop Setup</h1>
-          <h3 class="title">Demojam 101</h3>
+          <h1 class="title">Openshift 4 - Intro 101</h1>
+          <h2 class="title">Workshop Setup</h2>
           <div class="text-center">
             <a href="https://github.com/tonykhbo/openshift4-workshop-101" class="btn btn-primary btn-icon btn-round">
                 <i class="fab fa-github"></i>
@@ -132,40 +132,25 @@
                     <div class="card-body">
                       <ul class="list-group list-group-flush">
                         <li class="list-group-item">Clone the workshop directory:
-                          <pre>
-                            $ git clone https://github.com/tonykhbo/openshift4-workshop-101.git
-                          </pre>
+                          <pre>$ git clone https://github.com/tonykhbo/openshift4-workshop-101.git</pre>
                         </li>
                         <li class="list-group-item">Change Directory into the folder: 
-                          <pre>
-                            $ cd openshift4-workshop-101/
-                          </pre>
+                          <pre>$ cd openshift4-workshop-101/</pre>
                         </li>
                         <li class="list-group-item">This removes the .workshop/scripts directory that may exist when unpacking the workshop:
-                          <pre>
-                            $ rmdir .workshop/scripts
-                            $ git rm -r .workshop/scripts
-                          </pre>
+                          <pre>$ rmdir .workshop/scripts<br>$ git rm -r .workshop/scripts</pre>
                         </li>
                         <li class="list-group-item">Next configure Git to add the workshop-scripts Git repository as a Git submodule:
-                          <pre>
-                            $ git submodule add -b stable/1.x https://github.com/openshift-homeroom/spawner-scripts.git .workshop/scripts
-                          </pre>
+                          <pre>$ git submodule add -b stable/1.x https://github.com/openshift-homeroom/spawner-scripts.git .workshop/scripts</pre>
                         </li>
                         <li class="list-group-item">Then checkout a copy of the Git submodule:
-                          <pre>
-                            $ git submodule update --remote
-                          </pre>
+                          <pre>$ git submodule update --remote</pre>
                         </li>
                         <li class="list-group-item">Make sure you are in the Openshift project you created earlier:
-                          <pre>
-                            $ oc project [projectname]
-                          </pre>
+                          <pre>$ oc project [projectname]</pre>
                         </li>
                         <li class="list-group-item">This next step will deploy a spawner pod into the project you created earlier in Openshift. From the root directory, run the workshop spawner script:
-                          <pre>
-                            $ ./.workshop/scripts/deploy-spawner.sh
-                          </pre>
+                          <pre>$ ./.workshop/scripts/deploy-spawner.sh</pre>
                         </li>
                       </ul>
                     </div>
