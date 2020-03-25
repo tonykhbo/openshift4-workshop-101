@@ -193,13 +193,17 @@
           {
             "type": "GitHub",
             "github": {
-              "secret": "secret101"
+              "secretReference": {
+                "name": "secret101"
+              }
             }
           },
           {
             "type": "Generic",
             "generic": {
-              "secret": "secret101"
+              "secretReference": {
+                "name": "secret101"
+              }
             }
           }
         ],
@@ -228,6 +232,16 @@
         "resources": {
           "limits": {}
         }
+      }
+    },
+    {
+      "kind": "Secret",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "secret101"
+      },
+      "data": {
+        "WebHookSecretKey": "c2VjcmV0dmFsdWUx"
       }
     },
     {

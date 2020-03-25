@@ -58,6 +58,18 @@ Combine your generic webhook url and secret, you should have something like this
 https://172.30.0.1:443/apis/build.openshift.io/v1/namespaces/demo-user1/buildconfigs/demojam/webhooks/4YqIT6QX2yww3uNjmbxW/generic
 ```
 
+> Inside this lab environment, the webhook grabs the ingress IP address instead of the routable URL, so we have to modify it ourselves.
+
+Your current console URL looks like this ```%console_url%``` 
+
+Replace the ```lab.demo-%username%.apps``` with ```api```. Replace ```443``` with ```6443```. 
+
+Your final URL should look similar to this: 
+
+```
+https://api.clusterurl:6443/apis/build.openshift.io/v1/namespaces/demo-%username%/buildconfigs/demojam/webhooks/<secret>/generic
+```
+
 #### Jump back over to Github
 
 After copying down the Webhook URL from the CLI Instructions or Web Console instructions, navigate back to your forked repository on github. 
