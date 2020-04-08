@@ -120,7 +120,7 @@
                           <pre>$ oc [command] </pre>
                         </li>
                         <li class="list-group-item">Log in to your Openshift Cluster</li>
-                        <li class="list-group-item">Create a new project, you can name it anything. (ex. lab)</li>
+                        <!-- <li class="list-group-item">Create a new project, you can name it anything. (ex. lab)</li> -->
                       </ul>
                     </div>
                   </div>
@@ -136,8 +136,8 @@
                   <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
                     <div class="card-body">
                       <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Clone the workshop directory:
-                          <pre>$ git clone --recurse-submodules https://github.com/tonykhbo/openshift4-workshop-101.git</pre>
+                        <li class="list-group-item">Run this single line command to deploy your workshop into any bare Openshift cluster in the workshop namespace:
+                          <!-- <pre>$ git clone --recurse-submodules https://github.com/tonykhbo/openshift4-workshop-101.git</pre> -->
                         </li>
                         <!-- <li class="list-group-item">Change Directory into the folder: 
                           <pre>$ cd openshift4-workshop-101/</pre>
@@ -151,11 +151,17 @@
                         <li class="list-group-item">Then checkout a copy of the Git submodule:
                           <pre>$ git submodule update --remote</pre>
                         </li> -->
-                        <li class="list-group-item">Make sure you are in the Openshift project you created earlier:
+                        <!-- <li class="list-group-item">Make sure you are in the Openshift project you created earlier:
                           <pre>$ oc project [projectname]</pre>
                         </li>
                         <li class="list-group-item">This next step will deploy a spawner pod into the project you created earlier in Openshift. From the root directory, run the workshop spawner script:
                           <pre>$ ./.workshop/scripts/deploy-spawner.sh</pre>
+                        </li> -->
+                        <li class="list-group-item">
+                          <pre>$ oc new-project workshop && oc process -f https://raw.githubusercontent.com/openshift-homeroom/workshop-spawner/develop/templates/hosted-workshop-production.json --param CLUSTER_SUBDOMAIN=apps.$(oc get dns cluster -o jsonpath --template "{.spec.baseDomain}") --param WORKSHOP_IMAGE=quay.io/tonykhbo/ocp4-workshop-101:master --param SPAWNER_NAMESPACE=workshop --param WORKSHOP_NAME=openshift | oc apply -f - && oc get route</pre>
+                        </li>
+                        <li class="list-group-item">
+                          The command should output a URL. This is your spawner route that your students will navigate to and access their contained workshop.
                         </li>
                       </ul>
                     </div>
@@ -165,7 +171,7 @@
                 <div class="card card-plain">
                   <div class="card-header" role="tab" id="headingFour">
                       <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                        Using the lab spawner
+                        Managing the Lab Spawner Pod in the Workshop Namespace:
               
                     <i class="now-ui-icons arrows-1_minimal-down"></i>
                       </a>
@@ -175,7 +181,7 @@
                     <div class="card-body">
                       <ul class="list-group list-group-flush">
                         <li class="list-group-item">The script will only deploy 1 spawner pod, so scale up depending on the size of your lab. The spawner pod is responsible for provisioning the workshop image pod for each user.</li>
-                        <li class="list-group-item">Get the route for the spawner pod and distribute it to your users.</li>
+                        <!-- <li class="list-group-item">Get the route for the spawner pod and distribute it to your users.</li> -->
                         <li class="list-group-item">Once they navigate to the spawner url, they will need to log into Openshift using their lab credentials and it'll redirect them to the spawner landing page.</li>
                         <li class="list-group-item">The spawner landing page will allow the users to spawn their own workshop pod in your cluster. After the workshop pod comes up, the landing page will automatically redirect your user to the workshop content.</li>
                       </ul>
