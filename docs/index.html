@@ -344,21 +344,15 @@
     </footer> -->
   </div>
   <script>
-    function CopyToClipboard(containerid) {
-      if (document.selection) {
-        var range = document.body.createTextRange();
-        range.moveToElementText(document.getElementById(containerid));
-        range.select().createTextRange();
-        document.execCommand("copy");
-      } else if (window.getSelection) {
+    function copyDivToClipboard() {
         var range = document.createRange();
-        range.selectNode(document.getElementById(containerid));
-        window.getSelection().addRange(range);
+        range.selectNode(document.getElementById("a"));
+        window.getSelection().removeAllRanges(); // clear current selection
+        window.getSelection().addRange(range); // to select text
         document.execCommand("copy");
-        alert("Text has been copied, now paste in the text-area")
-      }
+        window.getSelection().removeAllRanges();// to deselect
     }
-  </script> 
+</script>
   <!--   Core JS Files   -->
   <script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
   <script src="assets/js/core/popper.min.js" type="text/javascript"></script>
