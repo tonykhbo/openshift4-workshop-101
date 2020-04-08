@@ -159,7 +159,7 @@
                         </li> -->
                         <li class="list-group-item">
                           <div style="white-space: pre-wrap;" id="div1">$ oc new-project workshop && oc process -f https://raw.githubusercontent.com/openshift-homeroom/workshop-spawner/develop/templates/hosted-workshop-production.json --param CLUSTER_SUBDOMAIN=apps.$(oc get dns cluster -o jsonpath --template "{.spec.baseDomain}") --param WORKSHOP_IMAGE=quay.io/tonykhbo/ocp4-workshop-101:master --param SPAWNER_NAMESPACE=workshop --param WORKSHOP_NAME=openshift | oc apply -f - && oc get route</div>
-                          <button id="button1" class="btn-primary" onclick="CopyToClipboard('div1')">Copy to Clipboard</button>
+                          <!-- <button id="button1" class="btn-primary" onclick="CopyToClipboard('div1')">Copy to Clipboard</button> -->
                         </li>
                         <li class="list-group-item">
                           The command should output a URL. This is your spawner route that your students will navigate to and access their contained workshop.
@@ -344,15 +344,15 @@
     </footer> -->
   </div>
   <script>
-    function copyDivToClipboard() {
-        var range = document.createRange();
-        range.selectNode(document.getElementById("a"));
-        window.getSelection().removeAllRanges(); // clear current selection
-        window.getSelection().addRange(range); // to select text
-        document.execCommand("copy");
-        window.getSelection().removeAllRanges();// to deselect
-    }
-</script>
+      function copyDivToClipboard() {
+          var range = document.createRange();
+          range.selectNode(document.getElementById("a"));
+          window.getSelection().removeAllRanges(); // clear current selection
+          window.getSelection().addRange(range); // to select text
+          document.execCommand("copy");
+          window.getSelection().removeAllRanges();// to deselect
+      }
+  </script>
   <!--   Core JS Files   -->
   <script src="assets/js/core/jquery.min.js" type="text/javascript"></script>
   <script src="assets/js/core/popper.min.js" type="text/javascript"></script>
